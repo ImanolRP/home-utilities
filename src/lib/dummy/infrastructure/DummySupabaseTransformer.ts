@@ -10,8 +10,8 @@ export class DummySupabaseTransformer {
             input.id, 
             input.dummyInteger, 
             input.dummyString,
-            input.dummyDate,
-            input.dummyTimestamp
+            (input.dummyDate === null) ? null : new Date(input.dummyDate),
+            (input.dummyTimestamp === null) ? null : new Date(input.dummyTimestamp)
             );
     }
 

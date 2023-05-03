@@ -24,6 +24,7 @@ export class GetDummyById {
             id: input.id,
             dummyInteger: input.dummyInteger,
             dummyString: input.dummyString,
+            dummyDate: input.dummyDate,
             dummyTimestamp: input.dummyTimestamp,
             status: "ok"
         }

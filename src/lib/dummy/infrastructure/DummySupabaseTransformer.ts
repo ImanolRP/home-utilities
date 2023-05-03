@@ -10,6 +10,7 @@ export class DummySupabaseTransformer {
             input.id, 
             input.dummyInteger, 
             input.dummyString,
+            input.dummyDate,
             input.dummyTimestamp
             );
     }

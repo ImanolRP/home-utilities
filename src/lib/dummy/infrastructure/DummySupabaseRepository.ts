@@ -1,25 +1,35 @@
-import { DummyRepositoryInterface } from "@/lib/dummy/domain/DummyRepositoryInterface";
-import { dbConnection } from '@/lib/config/supabase/SupabaseConfig'
-import { DummyEntity } from "../domain/DummyEntity";
-import { DummySupabaseTransformer } from "./DummySupabaseTransformer";
+import { type DummyRepositoryInterface } from '@/lib/dummy/domain/DummyRepositoryInterface'
+import { type dbConnection } from '@/lib/config/supabase/SupabaseConfig'
+import { DummyEntity } from '../domain/DummyEntity'
+import { type Database } from '@/lib/config/supabase/Schema'
 
-export class DummyRepositoryImpl implements DummyRepositoryInterface {
-    
-    constructor(
-        private transformer: DummySupabaseTransformer    
-    ){}
+export type DummySupabase = Database['public']['Tables']['dummy']['Row']
 
-    async getDummyById(id: string): Promise<DummyEntity | null> {
-        const { data, error } = await dbConnection
-        .from('dummy')
-        .select('*')
-        .eq('id', id)
-        .single()
+export class DummySupabaseRepository implements DummyRepositoryInterface {
+  constructor (
+    private readonly client: typeof dbConnection
+  ) {}
 
-        if(data === null){
-            return null;
-        }
-        return this.transformer.transform(data);
+  async getDummyById (id: string): Promise<DummyEntity | null> {
+    const { data } = await this.client
+      .from('dummy')
+      .select('*')
+      .eq('id', id)
+      .single()
+
+    if (data === null) {
+      return null
     }
+    return this.transform(data)
+  }
 
+  private transform (input: DummySupabase): DummyEntity {
+    return new DummyEntity(
+      input.id,
+      input.dummyInteger,
+      input.dummyString,
+      (input.dummyDate === null) ? null : new Date(input.dummyDate),
+      (input.dummyTimestamp === null) ? null : new Date(input.dummyTimestamp)
+    )
+  }
 }

@@ -1,26 +1,24 @@
+import { dbConnection } from '@/lib/config/supabase/SupabaseConfig'
 import { GetDummyById } from '@/lib/dummy/application/GetDummyById'
-import { DummyRepositoryImpl } from '@/lib/dummy/infrastructure/DummySupabaseRepository'
-import { DummySupabaseTransformer } from '@/lib/dummy/infrastructure/DummySupabaseTransformer'
+import { DummySupabaseRepository } from '@/lib/dummy/infrastructure/DummySupabaseRepository'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(
+export default async function handler (
   req: NextApiRequest,
   res: NextApiResponse
-  ) {
+): Promise<void> {
+  const getDummyById = new GetDummyById(new DummySupabaseRepository(dbConnection))
 
-    const getDummyById = new GetDummyById(new DummyRepositoryImpl(new DummySupabaseTransformer()));
-
-    const id = req.query['id']
-    if(id === undefined){
-      res.status(200).json({ name: 'Is undefined' })
-      return  
-    }
-    if(Array.isArray(id)){
-      res.status(200).json({ name: 'Is array' })
-      return
-    }
-    console.log(id)
-    res.status(200).json(await getDummyById.get(id))
+  const id = req.query.id
+  if (id === undefined) {
+    res.status(200).json({ name: 'Is undefined' })
+    return
   }
-  
+  if (Array.isArray(id)) {
+    res.status(200).json({ name: 'Is array' })
+    return
+  }
+  console.log(id)
+  res.status(200).json(await getDummyById.get(id))
+}

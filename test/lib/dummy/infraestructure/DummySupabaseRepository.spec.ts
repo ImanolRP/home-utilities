@@ -5,10 +5,11 @@ import { DummySupabaseRepository } from "../../../../src/lib/dummy/infrastructur
 describe('@/lib/dummy/infrastructure/DummySupabaseRepository', () => {
 
     it('Should return dummy by id', async ()=>{
+        const eq = jest.fn().mockImplementation(() => client)
         const client = {
             from: () => client,
             select: () => client,
-            eq: jest.fn().mockImplementation(() => client),
+            eq,
             single: () => ({
                 data:{
                     id : '416334ae-e8ff-11ed-a05b-0242ac120003',
@@ -23,7 +24,7 @@ describe('@/lib/dummy/infrastructure/DummySupabaseRepository', () => {
 
         const response = await repository.getDummyById('416334ae-e8ff-11ed-a05b-0242ac120003')
 
-        expect((client as unknown as {eq: typeof jest.fn}).eq).toHaveBeenCalledWith("id","416334ae-e8ff-11ed-a05b-0242ac120003")
+        expect(eq).toHaveBeenCalledWith("id","416334ae-e8ff-11ed-a05b-0242ac120003")
         expect(response).toEqual(
             new DummyEntity(
                 '416334ae-e8ff-11ed-a05b-0242ac120003',

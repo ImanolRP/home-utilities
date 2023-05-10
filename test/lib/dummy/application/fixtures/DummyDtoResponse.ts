@@ -1,4 +1,4 @@
-export const Default : DummyDtoResponse = {
+export const Default /*: DummyDtoResponse*/ = {
     id : '416334ae-e8ff-11ed-a05b-0242ac120003',
     dummyInteger: 9999,
     dummyString: 'test',

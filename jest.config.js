@@ -26,6 +26,9 @@ module.exports = {
   
       // Handle module aliases
       '^@/components/(.*)$': '<rootDir>/components/$1',
+
+      // Handle lib aliases
+      '@/(.*)$': '<rootDir>/src/$1',
     },
     // Add more setup options before each test is run
     // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],

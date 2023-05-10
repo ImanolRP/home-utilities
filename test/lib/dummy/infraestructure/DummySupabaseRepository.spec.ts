@@ -1,6 +1,6 @@
-import { DummyEntity } from "../../../../src/lib/dummy/domain/DummyEntity"
-import { dbConnection } from "../../../../src/lib/config/supabase/SupabaseConfig"
-import { DummySupabaseRepository } from "../../../../src/lib/dummy/infrastructure/DummySupabaseRepository"
+import { DummyEntity } from "@/lib/dummy/domain/DummyEntity"
+import { dbConnection } from "@/lib/config/supabase/SupabaseConfig"
+import { DummySupabaseRepository } from "@/lib/dummy/infrastructure/DummySupabaseRepository"
 
 describe('@/lib/dummy/infrastructure/DummySupabaseRepository', () => {
 
